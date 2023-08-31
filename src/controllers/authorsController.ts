@@ -52,7 +52,7 @@ class AuthorsController {
         return res
           .status(500)
           .send(
-            Helper.ResponseData(500, 'Falha ao atualizar autot', error, null)
+            Helper.ResponseData(500, 'Falha ao atualizar autor', error, null)
           )
       } else {
         return res
