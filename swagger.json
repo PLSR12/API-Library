@@ -1,0 +1,218 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Library API",
+    "description": "Documentation from Library api",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "definitions": {
+    "Books": {
+      "title": {
+        "type": "string"
+      },
+      "author": {
+        "type": "string"
+      },
+      "publishingCompany": {
+        "type": "string"
+      },
+      "numberPages": {
+        "type": "number"
+      }
+    }
+  },
+
+  "components": {
+    "securitySchemes": {}
+  },
+
+  "paths": {
+    "/books": {
+      "post": {
+        "tags": ["Books"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "publishingCompany": {
+                    "type": "string"
+                  },
+                  "numberPages": {
+                    "type": "number"
+                  }
+                },
+
+                "example": {
+                  "title": "STRING",
+                  "author": "STRING",
+                  "publishingCompany": "STRING",
+                  "numberPages": 100
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Books"],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+    "/books/{id}": {
+      "get": {
+        "tags": ["Books"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Books"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "publishingCompany": {
+                    "type": "string"
+                  },
+                  "numberPages": {
+                    "type": "number"
+                  }
+                },
+
+                "example": {
+                  "title": "STRING",
+                  "author": "STRING",
+                  "publishingCompany": "STRING",
+                  "numberPages": 100
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Books"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/books/search": {
+      "get": {
+        "tags": ["Books"],
+        "parameters": [
+          {
+            "name": "publishingCompany",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
