@@ -20,6 +20,14 @@
       "numberPages": {
         "type": "number"
       }
+    },
+    "Authors": {
+      "name": {
+        "type": "string"
+      },
+      "nationality": {
+        "type": "string"
+      }
     }
   },
 
@@ -197,6 +205,154 @@
             "name": "publishingCompany",
             "in": "query",
             "type": "string",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/authors": {
+      "post": {
+        "tags": ["Authors"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "nationality": {
+                    "type": "string"
+                  }
+                },
+
+                "example": {
+                  "name": "STRING",
+                  "nationality": "STRING"
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Authors"],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+    "/authors/{id}": {
+      "get": {
+        "tags": ["Authors"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {}
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Authors"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "nationality": {
+                      "type": "string"
+                    }
+                  }
+                },
+
+                "example": {
+                  "name": "STRING",
+                  "nationality": "STRING"
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Authors"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "format": "id",
             "required": true
           }
         ],
