@@ -12,8 +12,8 @@ router.delete('/authors/:id', AuthorsController.delete)
 
 router.get('/books', BooksController.getAll)
 router.get('/books/search', BooksController.getByPublishingCompany)
-router.get('/books/:id', BooksController.getOne)
 router.post('/books', BooksController.create)
+router.get('/books/:id', BooksController.getOne)
 router.put('/books/:id', BooksController.update)
 router.delete('/books/:id', BooksController.delete)
 
