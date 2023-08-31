@@ -12,6 +12,7 @@ db.on('error', console.log.bind(console, 'Error DB Connection'))
 db.once('open', () => console.log('Db Connected'))
 
 const app = express()
+app.use(express.json())
 app.use(router)
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
