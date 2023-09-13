@@ -1,86 +1,87 @@
-import { Request, Response } from 'express'
-import Authors from '../models/Author'
-import { IAuthor } from '../types/Author'
-import Helper from '../helper/Helper'
+import { NextFunction, Request, Response } from "express";
+import Authors from "../models/Author";
+import { IAuthor } from "../types/Author";
+import Helper from "../helper/Helper";
+import ErrorNotFound from "../errors/errorNotFound";
 
 class AuthorsController {
-  static getAll = (req: Request, res: Response) => {
-    Authors.find((error: any, authors: IAuthor) => {
-      if (error) {
-        return res.status(500).send(Helper.ResponseData(500, '', error, null))
-      } else {
-        return res
-          .status(200)
-          .send(Helper.ResponseData(200, null, null, authors))
-      }
-    })
-  }
+	static getAll = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const allAuthors: IAuthor[] = await Authors.find();
 
-  static getOne = (req: Request, res: Response) => {
-    const id = req.params.id
+			return res
+				.status(200)
+				.send(Helper.ResponseData(200, null, null, allAuthors));
+		} catch (error) {
+			next(error);
+		}
+	};
 
-    Authors.findOne({ _id: id }, (error: any, author: IAuthor) => {
-      if (error) {
-        return res.status(500).send(Helper.ResponseData(500, '', error, null))
-      } else {
-        return res
-          .status(200)
-          .send(Helper.ResponseData(200, null, null, author))
-      }
-    })
-  }
+	static getOne = async (req: Request, res: Response, next: NextFunction) => {
+		const id = req.params.id;
 
-  static create = (req: Request, res: Response) => {
-    const author = new Authors(req.body)
+		try {
+			const author: IAuthor | null = await Authors.findById(id);
 
-    author.save((error) => {
-      if (error) {
-        return res.status(500).send(Helper.ResponseData(500, '', error, null))
-      } else {
-        return res
-          .status(201)
-          .send(Helper.ResponseData(200, null, null, author.toJSON()))
-      }
-    })
-  }
+			if (author) {
+				return res
+					.status(200)
+					.send(Helper.ResponseData(200, null, null, author));
+			} else {
+				next(new ErrorNotFound("Id Author not found"));
+			}
+		} catch (error) {
+			next(error);
+		}
+	};
 
-  static update = (req: Request, res: Response) => {
-    const id = req.params.id
+	static create = async (req: Request, res: Response, next: NextFunction) => {
+		const author = new Authors(req.body);
 
-    Authors.findByIdAndUpdate(id, { $set: req.body }, (error: any) => {
-      if (error) {
-        return res
-          .status(500)
-          .send(
-            Helper.ResponseData(500, 'Falha ao atualizar autor', error, null)
-          )
-      } else {
-        return res
-          .status(200)
-          .send(
-            Helper.ResponseData(200, 'Autor atualizado com sucesso', null, null)
-          )
-      }
-    })
-  }
+		try {
+			await author.save();
+			return res
+				.status(201)
+				.send(Helper.ResponseData(201, null, null, author.toJSON()));
+		} catch (error) {
+			next(error);
+		}
+	};
 
-  static delete = (req: Request, res: Response) => {
-    const id = req.params.id
+	static update = async (req: Request, res: Response, next: NextFunction) => {
+		const id = req.params.id;
 
-    Authors.findByIdAndDelete(id, (error: any) => {
-      if (error) {
-        return res
-          .status(500)
-          .send(Helper.ResponseData(500, 'Falha ao deletar autor', error, null))
-      } else {
-        return res
-          .status(200)
-          .send(
-            Helper.ResponseData(200, 'Autor deletado com sucesso', null, null)
-          )
-      }
-    })
-  }
+		try {
+			const authorEdited = await Authors.findByIdAndUpdate(id, {
+				$set: req.body,
+			});
+
+			if (authorEdited) {
+				return res
+					.status(200)
+					.send(Helper.ResponseData(200, null, null, authorEdited));
+			} else {
+				next(new ErrorNotFound("Id Author not found"));
+			}
+		} catch (error) {
+			next(error);
+		}
+	};
+
+	static delete = async (req: Request, res: Response, next: NextFunction) => {
+		const id = req.params.id;
+
+		try {
+			const authorDeleted = await Authors.findByIdAndDelete(id);
+			if (authorDeleted) {
+				return res.status(200).send(Helper.ResponseData(200, null, null, null));
+			} else {
+				next(new ErrorNotFound("Id Author not found"));
+			}
+		} catch (error) {
+			next(error);
+		}
+	};
 }
 
-export default AuthorsController
+export default AuthorsController;
